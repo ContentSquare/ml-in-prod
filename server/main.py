@@ -12,20 +12,20 @@ logging.basicConfig(format="%(asctime)s [%(levelname)s] %(message)s", level=logg
 
 def build_model(model_path):
     with open(model_path, "rb") as f:
-        model = dill.load(f)
-    return model
+        mdl = dill.load(f)
+    return mdl
 
 
-def launch_model(model, request):
+def launch_model(mdl, request):
     try:
         features_as_dict = request.get_json()
         features_as_df = pd.io.json.json_normalize(features_as_dict)
 
         logger.debug("Predicting {}".format(features_as_df))
-        binary_predictions = model.predict(features_as_df)
+        binary_predictions = mdl.predict(features_as_df)
 
         detected_zones = str(binary_predictions[0])
-    except Exception as e:
+    except Exception:
         logger.exception("Error in pipeline")
         raise BadRequest(description=e.message)
 
@@ -33,7 +33,7 @@ def launch_model(model, request):
 
 
 @application.route("/predict", methods=["POST"])
-def handle_autozone_request():
+def handle_predict_request():
     global model
     return launch_model(model, request)
 
