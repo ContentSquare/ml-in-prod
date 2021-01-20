@@ -2,7 +2,7 @@ click==6.7
 dill==0.2.7.1
 Flask==0.12.2
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.10.1
 MarkupSafe==1.0
 numpy==1.13.1
 pandas==0.20.3
